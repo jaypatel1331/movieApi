@@ -28,9 +28,9 @@ app.use(express.json())
   app.post('/api/movies', async (req, res) => {
     try{
     const data = await db.addNewMovie(req.body); 
-    res.json(data);
+    res.status(201).json(data);
     }catch(err){
-        res.status(204).json({message: err});
+        res.status(404).json({message: err});
       };
   });
 
@@ -39,10 +39,10 @@ app.use(express.json())
   app.get('/api/movies',async (req, res) => {
     try{
        const data = await db.getAllMovies(req.query.page, req.query.perPage, req.query.title);
-        res.json(data);
+        res.status(201).json(data);
     }
     catch(err){
-        res.status(204).json({message: err});
+        res.status(404).json({message: err});
     }
   });
 
@@ -52,9 +52,9 @@ app.use(express.json())
   app.get('/api/movies/:id', async (req, res) => {
     try{
         const data = await db.getMovieById(req.params.id); 
-        res.json(data);
+        res.status(201).json(data);
       }catch(err){
-        res.status(204).json({message: err});
+        res.status(404).json({message: err});
       }  });
 
 // update movie using id
@@ -70,7 +70,6 @@ app.use(express.json())
 
 
   // delete movie using id
-
   app.delete('/api/movies/:id', async (req, res) => {
     try{
         await db.deleteMovieById(req.params.id)
